@@ -175,6 +175,27 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        class isSameWithBeside {
+            boolean hasSame(Board board, Tile tile) {
+                int value = tile.value();
+                if (tile.row() - 1 >= 0 && value == board.tile(tile.col(), tile.row() - 1).value()) {
+                    return true;
+                }
+                if (value == board.tile(tile.col(), tile.row() + 1).value()) {
+                    return true;
+                }
+                if (tile.col() - 1 >= 0 && value == board.tile(tile.col() - 1, tile.row()).value()) {
+                    return true;
+                }
+                if (value == board.tile(tile.col() + 1, tile.row()).value()) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        if (emptySpaceExists(b)){
+            return true;
+        }
         return false;
     }
 

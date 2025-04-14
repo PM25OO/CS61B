@@ -177,20 +177,21 @@ public class Model extends Observable {
         // TODO: Fill in this function.
         class isSameWithBeside {
             public boolean hasSame(Board board, Tile tile) {
+                int size = b.size();
                 int value = tile.value();
                 if (tile.row() - 1 >= 0 && value == board.tile(tile.col(), tile.row() - 1).value()) {
                     return true;
-                } else if (value == board.tile(tile.col(), tile.row() + 1).value()) {
+                } else if (tile.row() + 1 < size && value == board.tile(tile.col(), tile.row() + 1).value()) {
                     return true;
                 } else if (tile.col() - 1 >= 0 && value == board.tile(tile.col() - 1, tile.row()).value()) {
                     return true;
-                } else if (value == board.tile(tile.col() + 1, tile.row()).value()) {
+                } else if (tile.col() + 1 < size && value == board.tile(tile.col() + 1, tile.row()).value()) {
                     return true;
                 } else
                     return false;
             }
         }
-        if (emptySpaceExists(b)){
+        if (emptySpaceExists(b)) {
             return true;
         } else {
             int size = b.size();

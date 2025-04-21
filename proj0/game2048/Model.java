@@ -1,5 +1,6 @@
 package game2048;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Observable;
 
@@ -9,7 +10,7 @@ import java.util.Observable;
  */
 public class Model extends Observable {
     /** Current contents of the board. */
-    private Board board;
+    private final Board board;
     /** Current score. */
     private int score;
     /** Maximum score so far.  Updated when game ends. */
@@ -114,6 +115,26 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        int size = this.board.size();
+        for (int col = 0; col < size; col++) {
+            for (int row = size - 1; row >= 0; row--) {
+                if (board.tile(col, row) != null) {
+                    int targetRow = board.tile(col, row).row();
+                    while (targetRow + 1 <= size) { // 确保向上移动时不会越界
+                        if (board.tile(col, targetRow + 1) == null) { // 如果上方为空
+                            changed = true;
+                            targetRow++;
+                        }
+                        else { // 如果上方不为空，考虑是否要合并
+                            if (board.tile(col, targetRow + 1).value() == board.tile(col, row).value()) {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         checkGameOver();
         if (changed) {
             setChanged();
@@ -185,10 +206,7 @@ public class Model extends Observable {
                     return true;
                 } else if (tile.col() - 1 >= 0 && value == board.tile(tile.col() - 1, tile.row()).value()) {
                     return true;
-                } else if (tile.col() + 1 < size && value == board.tile(tile.col() + 1, tile.row()).value()) {
-                    return true;
-                } else
-                    return false;
+                } else return tile.col() + 1 < size && value == board.tile(tile.col() + 1, tile.row()).value();
             }
         }
         if (emptySpaceExists(b)) {

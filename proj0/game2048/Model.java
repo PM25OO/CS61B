@@ -107,6 +107,10 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      * */
     public boolean tilt(Side side) {
+
+        if (side == Side.EAST) board.setViewingPerspective(Side.EAST);
+        if (side == Side.WEST) board.setViewingPerspective(Side.WEST);
+        if (side == Side.SOUTH) board.setViewingPerspective(Side.SOUTH);
         boolean changed;
         changed = false;
 
@@ -141,7 +145,8 @@ public class Model extends Observable {
                 } else {
                     if(row + 1 < size) {
                         if(board.tile(col, row + 1).value() == board.tile(col, row).value()) {
-                            this.score += board.tile(col, row).value() * 2;
+                            int mergedValue = board.tile(col, row).value() * 2;
+                            this.score += mergedValue;
                             changed = true;
                             mergeTile(col, row, board.tile(col, row));
                         }
@@ -154,6 +159,7 @@ public class Model extends Observable {
         if (changed) {
             setChanged();
         }
+        board.setViewingPerspective(Side.NORTH);
         return changed;
     }
 

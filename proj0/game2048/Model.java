@@ -116,10 +116,19 @@ public class Model extends Observable {
         // changed local variable to true.
 
         int size = this.board.size();
+        Tile[][] tiles = new Tile[size][size]; // 创建一个board的副本
+
+        // 复制当前矩阵，用于计算最终位置
+        for (int col = 0; col < size; col++) {
+            for (int row = 0; row < size; row++) {
+                tiles[col][row] = board.tile(col, row);
+            }
+        }
+
         for (int col = 0; col < size; col++) {
             for (int row = size - 1; row >= 0; row--) {
-                if (board.tile(col, row) != null) {
-                    int targetRow = board.tile(col, row).row();
+                if (tiles[col][row] != null) {
+                    int targetRow = tiles[col][row].row();
                     while (targetRow + 1 <= size) { // 确保向上移动时不会越界
                         if (board.tile(col, targetRow + 1) == null) { // 如果上方为空
                             changed = true;

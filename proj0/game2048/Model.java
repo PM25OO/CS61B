@@ -168,6 +168,7 @@ public class Model extends Observable {
         for(int j = row - 1; j >= 0; j--) { // 再次向下查找遇到的第一片Tile
             if(board.tile(col, j) != null) {
                 board.move(col, row, board.tile(col, j));
+                break;
             }
         }
     }

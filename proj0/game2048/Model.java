@@ -1,6 +1,5 @@
 package game2048;
 
-import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Observable;
 
@@ -116,28 +115,35 @@ public class Model extends Observable {
         // changed local variable to true.
 
         int size = this.board.size();
-        Tile[][] tiles = new Tile[size][size]; // 创建一个board的副本
-
-        // 复制当前矩阵，用于计算最终位置
-        for (int col = 0; col < size; col++) {
-            for (int row = 0; row < size; row++) {
-                tiles[col][row] = board.tile(col, row);
-            }
-        }
 
         for (int col = 0; col < size; col++) {
             for (int row = size - 1; row >= 0; row--) {
-                if (tiles[col][row] != null) {
-                    int targetRow = tiles[col][row].row();
-                    while (targetRow + 1 <= size) { // 确保向上移动时不会越界
-                        if (board.tile(col, targetRow + 1) == null) { // 如果上方为空
-                            changed = true;
-                            targetRow++;
-                        }
-                        else { // 如果上方不为空，考虑是否要合并
-                            if (board.tile(col, targetRow + 1).value() == board.tile(col, row).value()) {
-
+                if (board.tile(col, row) == null) { // 检测到空格时
+                    for(int i = row - 1; i >= 0; i--) { // 向下查找遇到的第一片Tile
+                        if(board.tile(col, i) != null) {
+                            if(row + 1 < size) { // 检查能否向上合并
+                                if(board.tile(col, row + 1).value() == board.tile(col, i).value()) {
+                                    int mergedValue = board.tile(col, i).value() * 2;
+                                    this.score += mergedValue;
+                                    mergeTile(col, row, board.tile(col, i));
+                                }
+                                else {
+                                    board.move(col, row, board.tile(col, i));
+                                }
                             }
+                            else {
+                                board.move(col, row, board.tile(col, i));
+                            }
+                            changed = true;
+                            break;
+                        }
+                    }
+                } else {
+                    if(row + 1 < size) {
+                        if(board.tile(col, row + 1).value() == board.tile(col, row).value()) {
+                            this.score += board.tile(col, row).value() * 2;
+                            changed = true;
+                            mergeTile(col, row, board.tile(col, row));
                         }
                     }
                 }
@@ -149,6 +155,15 @@ public class Model extends Observable {
             setChanged();
         }
         return changed;
+    }
+
+    private void mergeTile(int col, int row, Tile tile) {
+        board.move(col, row + 1, tile);
+        for(int j = row - 1; j >= 0; j--) { // 再次向下查找遇到的第一片Tile
+            if(board.tile(col, j) != null) {
+                board.move(col, row, board.tile(col, j));
+            }
+        }
     }
 
     /** Checks if the game is over and sets the gameOver variable

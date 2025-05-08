@@ -71,12 +71,18 @@ public class IntListExercises {
             return false;
         }
 
-        boolean currElemIsPrime = Primes.isPrime(lst.first);
+        boolean changed = false;
+        IntList p = lst;
+        while (p != null) {
+            boolean currElemIsPrime = Primes.isPrime(p.first);
 
-        if (currElemIsPrime) {
-            lst.first *= lst.first;
+            if (currElemIsPrime) {
+                changed = true;
+                p.first *= p.first;
+            }
+            p = p.rest;
         }
 
-        return currElemIsPrime || squarePrimes(lst.rest);
+        return changed;
     }
 }

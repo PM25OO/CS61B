@@ -21,11 +21,14 @@ public class LinkedListDeque<Foo> {
     private Node last;
     private Node sentinel;
 
-    public LinkedListDeque(Foo i) {
-        sentinel = new Node(last, i, first);
-        first = new Node(sentinel, i, sentinel);
-        last = first;
-        size += 1;
+
+    public LinkedListDeque() {
+        sentinel = new Node(null, null, null);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+        first = sentinel;
+        last = sentinel;
+        size = 0;
     }
 
     public void addFirst(Foo item) {
@@ -41,7 +44,7 @@ public class LinkedListDeque<Foo> {
     }
 
     public boolean isEmpty() {
-        return (first == null);
+        return (size == 0);
     }
 
     public int size() {
@@ -53,19 +56,23 @@ public class LinkedListDeque<Foo> {
         while (p != sentinel) {
             System.out.print(p.item);
             System.out.print(' ');
+            p = p.next;
         }
         System.out.println();
     }
 
     public Foo removeFirst() {
-        if (first == null) {
+        if (isEmpty()) {
             return null;
         }
         else {
             Foo value = first.item;
             first = first.next;
+            first.prev = sentinel;
             size -= 1;
             return value;
         }
     }
+
+
 }

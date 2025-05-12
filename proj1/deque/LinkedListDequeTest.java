@@ -136,4 +136,25 @@ public class LinkedListDequeTest {
 
 
     }
+
+    @Test
+    public void smallLLDequeTest() {
+
+        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
+
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        for (int i = 0; i < 10; i++) {
+            lld1.addLast(i);
+        }
+
+        for (double i = 0; i < 5; i++) {
+            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
+        }
+
+        for (double i = 9; i > 5; i--) {
+            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
+        }
+
+
+    }
 }

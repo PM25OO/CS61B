@@ -1,7 +1,5 @@
 package deque;
 
-import org.w3c.dom.css.CSSImportRule;
-
 public class LinkedListDeque<Foo> {
 
     public class Node {
@@ -19,7 +17,7 @@ public class LinkedListDeque<Foo> {
     private int size;
     private Node first;
     private Node last;
-    private Node sentinel;
+    final Node sentinel;
 
 
     public LinkedListDeque() {
@@ -81,5 +79,18 @@ public class LinkedListDeque<Foo> {
         last.next = sentinel;
         size -= 1;
         return value;
+    }
+
+    public Foo get(int index) {
+        if (index < 0 || (index + 1) > size) {
+            return null;
+        }
+        Node p = first;
+        int target = 0;
+        while (index != target) {
+            p = p.next;
+            target += 1;
+        }
+        return p.item;
     }
 }

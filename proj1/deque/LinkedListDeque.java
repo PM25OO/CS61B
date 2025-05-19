@@ -30,10 +30,10 @@ public class LinkedListDeque<Foo> {
     }
 
     public void addFirst(Foo item) {
-         first.prev = new Node(sentinel ,item, first);
-         first = first.prev;
-         last = sentinel.prev;
-         size += 1;
+        first.prev = new Node(sentinel, item, first);
+        first = first.prev;
+        last = sentinel.prev;
+        size += 1;
     }
 
     public void addLast(Foo item) {

@@ -157,4 +157,47 @@ public class LinkedListDequeTest {
 
 
     }
+
+    @Test
+    /* Tests the getRecursive method with valid and invalid indices */
+    public void testGetRecursive() {
+        LinkedListDeque<String> lld = new LinkedListDeque<>();
+
+        lld.addLast("first");
+        lld.addLast("second");
+        lld.addLast("third");
+        lld.addLast("fourth");
+
+        // 测试正常索引
+        assertEquals("first", lld.getRecursive(0));
+        assertEquals("second", lld.getRecursive(1));
+        assertEquals("third", lld.getRecursive(2));
+        assertEquals("fourth", lld.getRecursive(3));
+
+        // 测试越界索引
+        assertNull("Index -1 should return null", lld.getRecursive(-1));
+        assertNull("Index 4 should return null", lld.getRecursive(4));
+    }
+
+    @Test
+    /* Tests getRecursive on an empty deque */
+    public void testGetRecursiveEmpty() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        assertNull("Empty deque should return null", lld.getRecursive(0));
+        assertNull("Empty deque should return null", lld.getRecursive(5));
+    }
+
+    @Test
+    /* Tests getRecursive after multiple addFirst operations */
+    public void testGetRecursiveAddFirst() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addFirst(10);
+        lld.addFirst(20);
+        lld.addFirst(30); // Deque is now [30, 20, 10]
+
+        assertEquals((Integer) 30, lld.getRecursive(0));
+        assertEquals((Integer) 20, lld.getRecursive(1));
+        assertEquals((Integer) 10, lld.getRecursive(2));
+    }
+
 }

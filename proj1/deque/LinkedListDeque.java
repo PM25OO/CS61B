@@ -93,4 +93,18 @@ public class LinkedListDeque<Foo> {
         }
         return p.item;
     }
+
+    public Foo getRecursive(int index) {
+        return getRecursiveHelper(first, index);
+    }
+
+    private Foo getRecursiveHelper(Node node, int index) {
+        if (index < 0) {
+            return null;
+        }
+        if (index == 0) {
+            return node.item;
+        }
+        return getRecursiveHelper(node.next, index - 1);
+    }
 }

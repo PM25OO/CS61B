@@ -49,22 +49,22 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        T result = list[size];
-        list[size] = null;
+        T result = list[size - 1];
+        list[size - 1] = null;
         size -= 1;
         indexOverOrNot();
         return result;
     }
 
     public T get(int index) {
-        if (index < size && index > 0) return list[index];
+        if (index < size && index >= 0) return list[index];
         return null;
     }
 
     private void indexOverOrNot() {
         if (size == max) {
             increaseSize();
-        } else if ((double) size / max < R_FACTOR) {
+        } else if (max > 8 && (double) size / max < R_FACTOR) {
             lowerSize();
         }
     }

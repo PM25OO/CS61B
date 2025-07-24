@@ -41,6 +41,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        if (size == 0) return null;
         T result = list[0];
         System.arraycopy(list, 1, list, 0, size);
         size -= 1;
@@ -49,6 +50,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
+        if (size == 0) return null;
         T result = list[size - 1];
         list[size - 1] = null;
         size -= 1;

@@ -1,17 +1,48 @@
 package deque;
 
-public class ArrayDeque<T> implements Deque<T> {
+import java.util.Comparator;
+
+public class MaxArrayDeque<T> {
     static double R_FACTOR = 0.25;
     private int size = 0;
     private int max;
+    private T maxItem;
     private T[] list;
+    private Comparator<T> method;
 
-    public ArrayDeque() {
+    public MaxArrayDeque() {
         list = (T[]) new Object[8];
         max = 8;
     }
 
-    @Override
+    public MaxArrayDeque(Comparator<T> c) {
+        list = (T[]) new Object[8];
+        max = 8;
+        method = c;
+    }
+
+    public T max() {
+        if (size == 0) return null;
+        T maxElement = list[0];
+        for (int i = 1; i < size; i++) {
+            if (method.compare(list[i], maxElement) > 0) {
+                maxElement = list[i];
+            }
+        }
+        return maxElement;
+    }
+
+    public T max(Comparator<T> c) {
+        if (size == 0) return null;
+        T maxElement = list[0];
+        for (int i = 1; i < size; i++) {
+            if (c.compare(list[i], maxElement) > 0) {
+                maxElement = list[i];
+            }
+        }
+        return maxElement;
+    }
+
     public void addFirst(T item) {
         indexOverOrNot();
         System.arraycopy(list, 0, list, 1, size);
@@ -19,19 +50,20 @@ public class ArrayDeque<T> implements Deque<T> {
         size += 1;
     }
 
-    @Override
     public void addLast(T item) {
         indexOverOrNot();
         list[size] = item;
         size += 1;
     }
 
-    @Override
+    public boolean isEmpty() {
+        return (size == 0);
+    }
+
     public int size() {
         return size;
     }
 
-    @Override
     public void printDeque() {
         for (int i = 0; i < size; i++) {
             System.out.print(list[i]);
@@ -40,7 +72,6 @@ public class ArrayDeque<T> implements Deque<T> {
         System.out.println();
     }
 
-    @Override
     public T removeFirst() {
         if (size == 0) return null;
         T result = list[0];
@@ -50,7 +81,6 @@ public class ArrayDeque<T> implements Deque<T> {
         return result;
     }
 
-    @Override
     public T removeLast() {
         if (size == 0) return null;
         T result = list[size - 1];
@@ -60,7 +90,6 @@ public class ArrayDeque<T> implements Deque<T> {
         return result;
     }
 
-    @Override
     public T get(int index) {
         if (index < size && index >= 0) return list[index];
         return null;

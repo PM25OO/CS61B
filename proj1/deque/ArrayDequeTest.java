@@ -243,7 +243,7 @@ public class ArrayDequeTest {
         // 测试非空队列打印
         deque.addLast("hello");
         deque.addLast("world");
-        deque.printDeque(); // 应该打印 "hello world "
+        deque.printDeque(); // 应该打印 "hello world"
     }
 
     /**

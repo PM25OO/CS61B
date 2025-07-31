@@ -31,17 +31,21 @@ public class LinkedListDeque<Foo> implements Deque<Foo> {
 
     @Override
     public void addFirst(Foo item) {
-        first.prev = new Node(sentinel, item, first);
-        first = first.prev;
+        Node newNode = new Node(sentinel, item, first);
+        first.prev = newNode;
+        sentinel.next = newNode;
+        first = sentinel.next;
         last = sentinel.prev;
         size += 1;
     }
 
     @Override
     public void addLast(Foo item) {
-        last.next = new Node(last, item, sentinel);
-        last = last.next;
+        Node newNode = new Node(last, item, sentinel);
+        last.next = newNode;
+        sentinel.prev = newNode;
         first = sentinel.next;
+        last = sentinel.prev;
         size += 1;
     }
 
@@ -63,12 +67,12 @@ public class LinkedListDeque<Foo> implements Deque<Foo> {
 
     @Override
     public Foo removeFirst() {
-        if (isEmpty()) {
-            return null;
-        }
+        if (isEmpty()) return null;
         Foo value = first.item;
-        first = first.next;
-        first.prev = sentinel;
+        sentinel.next = first.next;
+        first.next.prev = sentinel;
+        first = sentinel.next;
+        last = sentinel.prev;
         size -= 1;
         return value;
     }
@@ -77,8 +81,10 @@ public class LinkedListDeque<Foo> implements Deque<Foo> {
     public Foo removeLast() {
         if (isEmpty()) return null;
         Foo value = last.item;
-        last = last.prev;
-        last.next = sentinel;
+        sentinel.prev = last.prev;
+        last.prev.next = sentinel;
+        first = sentinel.next;
+        last = sentinel.prev;
         size -= 1;
         return value;
     }

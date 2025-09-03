@@ -34,7 +34,8 @@ class Utils {
     /* SHA-1 HASH VALUES. */
 
     /** Returns the SHA-1 hash of the concatenation of VALS, which may
-     *  be any mixture of byte arrays and Strings. */
+     *  be any mixture of byte arrays and Strings.
+     *  返回VALS的SHA-1哈希值，VALS可以是任意混合的字节数组和字符串。*/
     static String sha1(Object... vals) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -58,7 +59,8 @@ class Utils {
     }
 
     /** Returns the SHA-1 hash of the concatenation of the strings in
-     *  VALS. */
+     *  VALS.
+     *  返回 VALS 中字符串连接后的 SHA-1 哈希值。*/
     static String sha1(List<Object> vals) {
         return sha1(vals.toArray(new Object[vals.size()]));
     }
@@ -68,7 +70,10 @@ class Utils {
     /** Deletes FILE if it exists and is not a directory.  Returns true
      *  if FILE was deleted, and false otherwise.  Refuses to delete FILE
      *  and throws IllegalArgumentException unless the directory designated by
-     *  FILE also contains a directory named .gitlet. */
+     *  FILE also contains a directory named .gitlet.
+     *  如果文件存在且不是目录，则删除该文件。若成功删除，返回 true；否则返回 false。
+     *  在 FILE 所指向的目录中，如果不包含名为 .gitlet 的子目录，
+     *  将拒绝删除该文件并抛出 IllegalArgumentException 异常。*/
     static boolean restrictedDelete(File file) {
         if (!(new File(file.getParentFile(), ".gitlet")).isDirectory()) {
             throw new IllegalArgumentException("not .gitlet working directory");
@@ -168,9 +173,13 @@ class Utils {
             }
         };
 
-    /** Returns a list of the names of all plain files in the directory DIR, in
-     *  lexicographic order as Java Strings.  Returns null if DIR does
-     *  not denote a directory. */
+    /**
+     * 返回目录 DIR 中所有普通文件的名称列表，按字典顺序排列为 Java 字符串。
+     * 如果 DIR 不表示一个目录，则返回 null。
+     *
+     * @param dir 表示目录的 File 对象
+     * @return 包含目录中所有普通文件名称的列表，按字典顺序排列；
+     *         如果 DIR 不表示一个目录，则返回 null */
     static List<String> plainFilenamesIn(File dir) {
         String[] files = dir.list(PLAIN_FILES);
         if (files == null) {
@@ -191,14 +200,14 @@ class Utils {
     /* OTHER FILE UTILITIES */
 
     /** Return the concatentation of FIRST and OTHERS into a File designator,
-     *  analogous to the {@link java.nio.file.Paths.#get(String, String[])}
+     *  analogous to the {@link java.nio.file.Paths#get(String, String[])}
      *  method. */
     static File join(String first, String... others) {
         return Paths.get(first, others).toFile();
     }
 
     /** Return the concatentation of FIRST and OTHERS into a File designator,
-     *  analogous to the {@link java.nio.file.Paths.#get(String, String[])}
+     *  analogous to the {@link java.nio.file.Paths#get(String, String[])}
      *  method. */
     static File join(File first, String... others) {
         return Paths.get(first.getPath(), others).toFile();
@@ -224,14 +233,25 @@ class Utils {
 
     /* MESSAGES AND ERROR REPORTING */
 
-    /** Return a GitletException whose message is composed from MSG and ARGS as
-     *  for the String.format method. */
+    /**
+     * 返回一个 GitletException，其消息由 MSG 和 ARGS 组成，
+     * 格式与 String.format 方法相同。
+     *
+     * @param msg 异常消息的格式字符串
+     * @param args 格式字符串中占位符的参数
+     * @return 一个包含格式化消息的 GitletException
+     */
     static GitletException error(String msg, Object... args) {
         return new GitletException(String.format(msg, args));
     }
 
-    /** Print a message composed from MSG and ARGS as for the String.format
-     *  method, followed by a newline. */
+    /**
+     * 打印由 MSG 和 ARGS 组成的消息，格式与 String.format 方法相同，
+     * 并在消息后添加换行符。
+     *
+     * @param msg 消息的格式字符串
+     * @param args 格式字符串中占位符的参数
+     */
     static void message(String msg, Object... args) {
         System.out.printf(msg, args);
         System.out.println();

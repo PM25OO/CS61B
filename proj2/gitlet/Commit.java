@@ -13,12 +13,17 @@ public class Commit {
      */
 
     /** The message of this Commit. */
-    private String message;
-    private String timeStamp;
+    public String message;
+    public String timeStamp;
+    public String branch;
+    public String commitID;
+    public String parentID;
 
     Commit() {
-        this.message = "initial commit";
+        message = "initial commit";
         timeStamp = (new Date(0)).toString();
+        parentID = "";
+        branch = "master";
     }
 
     Commit(String message) {

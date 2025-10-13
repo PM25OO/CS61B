@@ -1,8 +1,5 @@
 package hashmap;
 
-import org.w3c.dom.Node;
-
-import java.awt.image.Kernel;
 import java.util.*;
 
 /**
@@ -161,7 +158,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
 
     private void resize(int i) {
-        MyHashMap<K, V> temp = new MyHashMap<K, V>(i);
+        MyHashMap<K, V> temp = new MyHashMap<>(i);
         for (int j = 0; j < initialSize; j++) {
             temp.buckets[j] = buckets[j];
         }
@@ -186,7 +183,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             int index = hash(key);
             V removeVal = null;
             for (Node node : buckets[index]) {
-                if (node.key.equals(key) && (value == null || node.value.equals(value) )) {
+                if (node.key.equals(key) && (value == null || node.value.equals(value))) {
                     removeVal = node.value;
                     buckets[index].remove(node);
                     break;

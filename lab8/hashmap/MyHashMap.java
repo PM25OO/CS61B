@@ -13,7 +13,7 @@ import java.util.Set;
  * <p>
  * Assumes null keys will never be inserted, and does not resize down upon remove().
  *
- * @author YOUR NAME HERE
+ * @author PM25OO
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 

@@ -34,7 +34,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private double maxLoad;
     private int number = 0;
     /// number of key-value pairs
-    HashSet<K> hashSet = new HashSet<>();
+    private HashSet<K> hashSet = new HashSet<>();
 
     /**
      * Constructors

@@ -1,6 +1,7 @@
 package gitlet;
 
 import java.io.File;
+
 import static gitlet.Utils.*;
 
 // TODO: any imports you need here
@@ -23,9 +24,13 @@ public class Repository {
      * 描述该变量的含义及其使用方式。我们已为您提供了两个示例。
      */
 
-    /** The current working directory. */
+    /**
+     * The current working directory.
+     */
     public static final File CWD = new File(System.getProperty("user.dir"));
-    /** The .gitlet directory. */
+    /**
+     * The .gitlet directory.
+     */
     public static final File GITLET_DIR = join(CWD, ".gitlet");
     public static final File STAGING_DIR = join(GITLET_DIR, "stage");
 
@@ -33,16 +38,20 @@ public class Repository {
     public Commit HEAD;
 
     public static void init() {
-        if(GITLET_DIR.exists())
-            Utils.message("A Gitlet version-control system already exists in the current directory.");
+        if (GITLET_DIR.exists())
+            message("A Gitlet version-control system already exists in the current directory.");
         else {
             GITLET_DIR.mkdir();
             Commit commit = new Commit();
         }
     }
 
-    public static void add(){
-
+    public static void add(String fileName) {
+        File f = join(CWD, fileName);
+        if (!f.exists()) message("File does not exist.");
+        else {
+            String fileHash = sha1(f);
+        }
     }
 
     /* TODO: 填充此类的其余部分。 */

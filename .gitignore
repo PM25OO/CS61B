@@ -448,10 +448,10 @@ tramp
 **/.idea/**/libraries
 
 # Project 2
-proj2*/**/data/
-proj2*/**/ngordnetData2022/
-proj2*/**/*.zip
-proj2*/**/*.txt
+sp24-proj2*/**/data/
+sp24-proj2*/**/ngordnetData2022/
+sp24-proj2*/**/*.zip
+sp24-proj2*/**/*.txt
 synsets.txt
 hyponyms.txt
 all_words.csv

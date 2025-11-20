@@ -1,6 +1,9 @@
 package gitlet;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import static gitlet.Utils.*;
 
@@ -47,10 +50,17 @@ public class Repository {
     }
 
     public static void add(String fileName) {
-        File f = join(CWD, fileName);
-        if (!f.exists()) message("File does not exist.");
+        File sourceFile = join(CWD, fileName);
+        if (!sourceFile.exists()) message("File does not exist.");
         else {
-            String fileHash = sha1(f);
+            File targetFile = join(STAGING_DIR, fileName);
+            if (!targetFile.exists() || !sha1(sourceFile).equals(sha1(targetFile))) {
+                try {
+                    Files.copy(sourceFile.toPath(), join(STAGING_DIR, fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    System.err.println("文件复制失败: " + e.getMessage());
+                }
+            }
         }
     }
 

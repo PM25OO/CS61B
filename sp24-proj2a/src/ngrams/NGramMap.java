@@ -22,12 +22,10 @@ import java.util.HashMap;
  */
 public class NGramMap {
 
-    // TODO: Add any necessary static/instance variables.
-    // TODO：添加所有必要的静态变量或实例变量。
-    private In WORDSFILE;
-    private In COUNTFILE;
-    private HashMap<String, TimeSeries> nGramMap = new HashMap<>();
-    private TimeSeries countsSeries = new TimeSeries();
+    private final In WORDSFILE;
+    private final In COUNTFILE;
+    private final HashMap<String, TimeSeries> nGramMap = new HashMap<>();
+    private final TimeSeries countsSeries = new TimeSeries();
 
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
@@ -39,28 +37,6 @@ public class NGramMap {
         COUNTFILE = new In(countsFilename);
         handleFile();
     }
-
-    private void handleFile() {
-        String currentWord = "";
-        while (WORDSFILE.hasNextLine()) {
-            String[] nextLineWords = WORDSFILE.readLine().split("\t");
-            String thisWord = nextLineWords[0];
-            Integer year = Integer.parseInt(nextLineWords[1]);
-            Double times = Double.parseDouble(nextLineWords[2]);
-            if (!currentWord.equals(thisWord)) {
-                if (!currentWord.isEmpty()) nGramMap.put(thisWord, new TimeSeries());
-                currentWord = thisWord;
-            }
-            nGramMap.get(thisWord).put(year, times);
-        }
-        while (COUNTFILE.hasNextLine()) {
-            String[] nextLineWords = COUNTFILE.readLine().split(",");
-            Integer year = Integer.parseInt(nextLineWords[0]);
-            Double times = Double.parseDouble(nextLineWords[1]);
-            countsSeries.put(year, times);
-        }
-    }
-
     /**
      * Provides the history of WORD between STARTYEAR and ENDYEAR, inclusive of both ends. The
      * returned TimeSeries should be a copy, not a link to this NGramMap's TimeSeries. In other
@@ -121,9 +97,13 @@ public class NGramMap {
      * 相对频率。如果该单词不在数据文件中，则返回一个空的 TimeSeries。
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
-        // TODO：实现该方法。
-        return null;
+        TimeSeries t = new TimeSeries();
+        if (!nGramMap.containsKey(word)) return t;
+        TimeSeries originTS = countHistory(word, startYear, endYear);
+        for (Integer year : originTS.keySet()) {
+            t.put(year, originTS.get(year) / countsSeries.get(year));
+        }
+        return t;
     }
 
     /**
@@ -135,9 +115,13 @@ public class NGramMap {
      * 如果该单词不在数据文件中，则返回一个空的 TimeSeries。
      */
     public TimeSeries weightHistory(String word) {
-        // TODO: Fill in this method.
-        // TODO：实现该方法。
-        return null;
+        TimeSeries t = new TimeSeries();
+        if (!nGramMap.containsKey(word)) return t;
+        TimeSeries originTS = nGramMap.get(word);
+        for (Integer year : originTS.keySet()) {
+            t.put(year, originTS.get(year) / countsSeries.get(year));
+        }
+        return t;
     }
 
     /**
@@ -151,9 +135,15 @@ public class NGramMap {
      */
     public TimeSeries summedWeightHistory(Collection<String> words,
                                           int startYear, int endYear) {
-        // TODO: Fill in this method.
-        // TODO：实现该方法。
-        return null;
+        TimeSeries t = new TimeSeries();
+        for (String word : words) {
+            if (!nGramMap.containsKey(word)) {
+                continue;
+            }
+            TimeSeries tempTS = weightHistory(word, startYear, endYear);
+            t = t.plus(tempTS);
+        }
+        return t;
     }
 
     /**
@@ -164,14 +154,35 @@ public class NGramMap {
      * 单词在对应年份的时间范围内不存在，则忽略它，而不是抛出异常。
      */
     public TimeSeries summedWeightHistory(Collection<String> words) {
-        // TODO: Fill in this method.
-        // TODO：实现该方法。
-        return null;
+        TimeSeries t = new TimeSeries();
+        for (String word : words) {
+            if (!nGramMap.containsKey(word)) {
+                continue;
+            }
+            TimeSeries tempTS = weightHistory(word);
+            t = t.plus(tempTS);
+        }
+        return t;
     }
 
-    // TODO: Add any private helper methods.
-    // TODO：添加所有需要的私有辅助方法。
-
-    // TODO: Remove all TODO comments before submitting.
-    // TODO：提交前删除所有 TODO 注释。
+    private void handleFile() {
+        String currentWord = "";
+        while (WORDSFILE.hasNextLine()) {
+            String[] nextLineWords = WORDSFILE.readLine().split("\t");
+            String thisWord = nextLineWords[0];
+            Integer year = Integer.parseInt(nextLineWords[1]);
+            Double times = Double.parseDouble(nextLineWords[2]);
+            if (!currentWord.equals(thisWord)) {
+                nGramMap.put(thisWord, new TimeSeries());
+                currentWord = thisWord;
+            }
+            nGramMap.get(thisWord).put(year, times);
+        }
+        while (COUNTFILE.hasNextLine()) {
+            String[] nextLineWords = COUNTFILE.readLine().split(",");
+            Integer year = Integer.parseInt(nextLineWords[0]);
+            Double times = Double.parseDouble(nextLineWords[1]);
+            countsSeries.put(year, times);
+        }
+    }
 }

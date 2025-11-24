@@ -22,9 +22,11 @@ public class Main {
 
         */
 
+        NGramMap nGramMap = new NGramMap(TOP_14337_WORDS_FILE, TOTAL_COUNTS_FILE);
+
         hns.startUp();
-        hns.register("history", new DummyHistoryHandler());
-        hns.register("historytext", new HistoryTextHandler(new NGramMap(TOP_14337_WORDS_FILE, TOTAL_COUNTS_FILE)));
+        hns.register("history", new HistoryHandler(nGramMap));
+        hns.register("historytext", new HistoryTextHandler(nGramMap));
 
         System.out.println("Finished server startup! Visit http://localhost:4567/ngordnet_2a.html");
     }

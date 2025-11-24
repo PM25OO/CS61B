@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HistoryTextHandler extends NgordnetQueryHandler {
 
-    public NGramMap map;
+    private final NGramMap map;
 
     public HistoryTextHandler(NGramMap map) {
         this.map = map;

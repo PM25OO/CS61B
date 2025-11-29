@@ -1,8 +1,6 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MyGraph {
 
@@ -32,11 +30,30 @@ public class MyGraph {
         wordList.computeIfAbsent(k, f -> new WordList()).getWords().addAll(v);
     }
 
-    public void addEdge(int a, List<Integer> b) {
-        graph.computeIfAbsent(a, k -> new AdjList()).getNeighbors().addAll(b);
+    public void addNode(int a) {
+        graph.computeIfAbsent(a, k -> new AdjList());
     }
 
     public void addEdge(int a, int b) {
         graph.computeIfAbsent(a, k -> new AdjList()).getNeighbors().add(b);
+    }
+
+    public TreeSet<String> searchHyponym(String word) {
+        List<Integer> index = new ArrayList<>();
+        for (Integer i : wordList.keySet()) {
+            if (wordList.get(i).getWords().contains(word)) index.add(i);
+        }
+        return searchHelper(index);
+    }
+
+    private TreeSet<String> searchHelper(List<Integer> list) {
+        TreeSet<String> stringSet = new TreeSet<>();
+        if (!list.isEmpty()) {
+            for (Integer i : list) {
+                stringSet.addAll(wordList.get(i).getWords());
+                stringSet.addAll(searchHelper(graph.get(i).getNeighbors()));
+            }
+        }
+        return stringSet;
     }
 }

@@ -44,4 +44,8 @@ public class WordnetGraph {
     public Set<String> hyponymList(String word) {
         return wordNetGraph.searchHyponym(word);
     }
+
+    public Set<String> ancestorList(String word) {
+        return wordNetGraph.searchAncestor(word);
+    }
 }

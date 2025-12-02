@@ -2,6 +2,7 @@ package main;
 
 import browser.NgordnetQuery;
 import browser.NgordnetQueryHandler;
+import browser.NgordnetQueryType;
 import ngrams.NGramMap;
 import ngrams.TimeSeries;
 import wordnet.WordnetGraph;
@@ -25,29 +26,41 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         int startYear = q.startYear();
         int endYear = q.endYear();
         int k = q.k();
+        NgordnetQueryType ngordnetQueryType = q.ngordnetQueryType();
 
-        Set<String> retainSet = wdg.hyponymList(words.get(0));
-        Map<Double, List<String>> popularList = new TreeMap<>();
-        String response = "";
+        if (ngordnetQueryType == NgordnetQueryType.HYPONYMS) {
+            Set<String> retainSet = wdg.hyponymList(words.get(0));
+            Map<Double, List<String>> popularList = new TreeMap<>();
+            String response = "";
 
-        for (String word : words) {
-            Set<String> set = wdg.hyponymList(word);
-            retainSet.retainAll(set);
+            for (String word : words) {
+                Set<String> set = wdg.hyponymList(word);
+                retainSet.retainAll(set);
+            }
+
+            for (String word : retainSet) {
+                TimeSeries ts = ngm.countHistory(word, startYear, endYear);
+                double count = ts.values().stream().mapToDouble(Double::doubleValue).sum();
+                popularList.computeIfAbsent(count, s -> new ArrayList<String>()).add(word);
+            }
+
+            List<String> result = popularList.entrySet().stream()
+                    .sorted(Map.Entry.<Double, List<String>>comparingByKey().reversed())
+                    .flatMap(entry -> entry.getValue().stream())
+                    .limit(k)
+                    .toList();
+
+            return response + new TreeSet<String>(result);
+        } else {
+            Set<String> retainSet = wdg.ancestorList(words.get(0));
+            String response = "";
+
+            for (String word : words) {
+                Set<String> set = wdg.ancestorList(word);
+                retainSet.retainAll(set);
+            }
+
+            return response + retainSet;
         }
-
-        for (String word : retainSet) {
-            TimeSeries ts = ngm.countHistory(word, startYear, endYear);
-            double count = ts.values().stream().mapToDouble(Double::doubleValue).sum();
-            popularList.computeIfAbsent(count, s -> new ArrayList<String>()).add(word);
-        }
-
-        List<String> result = popularList.entrySet().stream()
-                .sorted(Map.Entry.<Double, List<String>>comparingByKey().reversed())
-                .flatMap(entry -> entry.getValue().stream())
-                .limit(k)
-                .toList();
-
-
-        return response + new TreeSet<String>(result);
     }
 }

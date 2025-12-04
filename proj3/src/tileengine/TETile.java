@@ -1,11 +1,11 @@
-package byow.TileEngine;
+package tileengine;
 
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.Random;
 
-import edu.princeton.cs.introcs.StdDraw;
-import byow.Core.RandomUtils;
+import edu.princeton.cs.algs4.StdDraw;
+import utils.RandomUtils;
 
 /**
  * The TETile object is used to represent a single tile in your world. A 2D array of tiles make up a
@@ -27,6 +27,7 @@ public class TETile {
     private final Color backgroundColor;
     private final String description;
     private final String filepath;
+    private final int id;
 
     /**
      * Full constructor for TETile objects.
@@ -37,12 +38,13 @@ public class TETile {
      * @param filepath Full path to image to be used for this tile. Must be correct size (16x16)
      */
     public TETile(char character, Color textColor, Color backgroundColor, String description,
-                  String filepath) {
+                  String filepath, int id) {
         this.character = character;
         this.textColor = textColor;
         this.backgroundColor = backgroundColor;
         this.description = description;
         this.filepath = filepath;
+        this.id = id;
     }
 
     /**
@@ -53,12 +55,13 @@ public class TETile {
      * @param backgroundColor The color drawn behind the character.
      * @param description The description of the tile, shown in the GUI on hovering over the tile.
      */
-    public TETile(char character, Color textColor, Color backgroundColor, String description) {
+    public TETile(char character, Color textColor, Color backgroundColor, String description, int id) {
         this.character = character;
         this.textColor = textColor;
         this.backgroundColor = backgroundColor;
         this.description = description;
         this.filepath = null;
+        this.id = id;
     }
 
     /**
@@ -67,7 +70,16 @@ public class TETile {
      * @param textColor foreground color for tile copy
      */
     public TETile(TETile t, Color textColor) {
-        this(t.character, textColor, t.backgroundColor, t.description, t.filepath);
+        this(t.character, textColor, t.backgroundColor, t.description, t.filepath, t.id);
+    }
+
+    /**
+     * Creates a copy of TETile t, except with given character.
+     * @param t tile to copy
+     * @param c character for tile copy
+     */
+    public TETile(TETile t, char c) {
+        this(c, t.textColor, t.backgroundColor, t.description, t.filepath, t.id);
     }
 
 
@@ -112,6 +124,14 @@ public class TETile {
      */
     public String description() {
         return description;
+    }
+
+    /**
+     * ID number of the tile. Used for equality comparisons.
+     * @return id of the tile
+     */
+    public int id() {
+        return id;
     }
 
     /**
@@ -188,5 +208,18 @@ public class TETile {
         }
 
         return copy;
+    }
+
+    /**
+     * Checks if two tiles are equal by comparing their IDs.
+     * @param o object to compare with
+     * @return boolean representing equality
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        return (o instanceof TETile otherTile && otherTile.id == this.id);
     }
 }

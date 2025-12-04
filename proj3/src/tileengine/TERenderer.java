@@ -1,6 +1,6 @@
-package byow.TileEngine;
+package tileengine;
 
-import edu.princeton.cs.introcs.StdDraw;
+import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -33,8 +33,7 @@ public class TERenderer {
         this.xOffset = xOff;
         this.yOffset = yOff;
         StdDraw.setCanvasSize(width * TILE_SIZE, height * TILE_SIZE);
-        Font font = new Font("Monaco", Font.BOLD, TILE_SIZE - 2);
-        StdDraw.setFont(font);      
+        resetFont();
         StdDraw.setXscale(0, width);
         StdDraw.setYscale(0, height);
 
@@ -84,9 +83,18 @@ public class TERenderer {
      * @param world the 2D TETile[][] array to render
      */
     public void renderFrame(TETile[][] world) {
+        StdDraw.clear(new Color(0, 0, 0));
+        drawTiles(world);
+        StdDraw.show();
+    }
+
+    /**
+     * Draws all world tiles without clearing the canvas or showing the tiles.
+     * @param world the 2D TETile[][] array to render
+     */
+    public void drawTiles(TETile[][] world) {
         int numXTiles = world.length;
         int numYTiles = world[0].length;
-        StdDraw.clear(new Color(0, 0, 0));
         for (int x = 0; x < numXTiles; x += 1) {
             for (int y = 0; y < numYTiles; y += 1) {
                 if (world[x][y] == null) {
@@ -96,6 +104,14 @@ public class TERenderer {
                 world[x][y].draw(x + xOffset, y + yOffset);
             }
         }
-        StdDraw.show();
+    }
+
+    /**
+     * Resets the font to default settings. You should call this method before drawing any tiles
+     * if you changed the pen settings.
+     */
+    public void resetFont() {
+        Font font = new Font("Monaco", Font.BOLD, TILE_SIZE - 2);
+        StdDraw.setFont(font);
     }
 }

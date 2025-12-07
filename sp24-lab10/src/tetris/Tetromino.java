@@ -58,6 +58,7 @@ public enum Tetromino {
     Tetromino(Color color, boolean[][] s) {
         this.tile = new TETile('█', color, Color.BLACK, "", 0);
         // need to convert from ij to xy coords because tile renderer coordinates are mismatched
+        // 需要从ij坐标转换为xy坐标，因为tile渲染器坐标不匹配
         this.shape = ijToXY(s);
         this.width = shape[0].length;
         this.height = shape.length;
@@ -97,6 +98,8 @@ public enum Tetromino {
 
     /**
      * Sets the point of a Tetromino to (3, 20), specifically for spawning.
+     *
+     * 设置Tetromino的点为（3,20），专门用于产卵。
      */
     public void reset() {
         this.pos = new Point(3, 20);

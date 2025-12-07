@@ -25,6 +25,8 @@ public class Movement {
 
     /**
      * Rotate the current Tetromino 90 degrees to the right (clockwise).
+     *
+     * 将当前的Tetromino向右旋转90度（顺时针）。
      */
     public void rotateRight() {
         rotate(Rotation.RIGHT);
@@ -32,6 +34,8 @@ public class Movement {
 
     /**
      * Rotate the current Tetromino 90 degrees to the left (counter-clockwise).
+     *
+     * 将当前的Tetromino向左旋转90度（逆时针）。
      */
     public void rotateLeft() {
         rotate(Rotation.LEFT);
@@ -41,6 +45,10 @@ public class Movement {
      * Attempts to move the current Tetromino by a shift of deltaX and deltaY.
      * If the Tetromino cannot move and will collide with a boundary or existing piece,
      * it is placed at its current position and nullified so a new Tetromino can spawn.
+     *
+     * 尝试通过deltaX和deltaY的移动来移动当前的Tetromino。
+     * 如果Tetromino无法移动并且将与边界或现有的部件碰撞，
+     * 则将其放置在当前位置并使其无效，以便生成新的Tetromino。
      * @param deltaX
      * @param deltaY
      */
@@ -65,6 +73,8 @@ public class Movement {
     /**
      * Checks whether moving the current Tetromino by a shift of deltaX and deltaY
      * is valid, i.e. within bounds and does not collide with other pieces.
+     *
+     * 检查通过deltaX和deltaY移动当前的Tetromino是否有效，即在边界内并且不与其他碎片碰撞。
      * @param deltaX
      * @param deltaY
      * @return a boolean representing if the move is possible or not
@@ -99,6 +109,8 @@ public class Movement {
     /**
      * Moves the current Tetromino down one tile, if not able to move down,
      * set the block in place and allow for a new Tetromino to be spawned.
+     *
+     * 将当前的Tetromino向下移动一个贴图，如果不能向下移动，则设置该块并允许生成新的Tetromino。
      */
     public void dropDown() {
         Tetromino t = tetris.getCurrentTetromino();
@@ -119,6 +131,8 @@ public class Movement {
      * Checks whether rotating the current Tetromino is valid,
      * i.e. it will remain within bounds and does not rotate/collide into
      * other pieces.
+     *
+     * 检查旋转当前Tetromino是否有效，即。它将保持在边界内，不会旋转/碰撞到其他碎片。
      * @param newShape
      * @return a boolean representing if the rotation is possible or not
      */
@@ -142,6 +156,8 @@ public class Movement {
 
     /**
      * Rotation enum used to discern between left and right rotations.
+     *
+     * 旋转枚举用于区分左旋转和右旋转。
      */
     public enum Rotation {
         RIGHT, LEFT
@@ -150,6 +166,8 @@ public class Movement {
     /**
      * Attempts to rotate the current Tetromino by the given direction r (left or right).
      * If the Tetromino cannot rotate, it will remain in its current orientation.
+     *
+     * 尝试以给定方向r（向左或向右）旋转当前的Tetromino。如果Tetromino不能旋转，它将保持当前的方向。
      * @param r
      */
     public void rotate(Rotation r) {

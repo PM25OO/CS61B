@@ -207,8 +207,6 @@ public class Tetris {
      */
     // 使用 StdDraw 库绘制分数。
     private void renderScore() {
-        // TODO: Use the StdDraw library to draw out the score.
-        // TODO: 使用 StdDraw 库绘制分数。
         StdDraw.setPenColor(255, 255, 255);
         StdDraw.text(7, 19, "score: " + getScore());
 

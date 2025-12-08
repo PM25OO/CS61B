@@ -15,6 +15,17 @@ import java.awt.Color;
  * The style checker may crash when you try to style check this file due to use of unicode
  * characters. This is OK.
  */
+/*
+ * 包含常量图块对象，以避免在代码的不同部分重复创建相同的图块。
+ *
+ * 您可以（也鼓励您）创建并添加自己的图块到此文件中。此文件将与您的其余代码一同提交。
+ *
+ * 示例：
+ * world[x][y] = Tileset.FLOOR; // 将世界中的 (x, y) 位置设置为地板图块
+ *
+ * 由于使用了 Unicode 字符，当您尝试对此文件进行风格检查时，风格检查器可能会崩溃。
+ * 这是正常的。
+ */
 
 public class Tileset {
     public static final TETile AVATAR = new TETile('@', Color.white, Color.black, "you", 0);

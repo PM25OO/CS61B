@@ -120,7 +120,7 @@ public class Tetris {
                 case 'q':
                     movement.rotateLeft();
                     break;
-                case 'w':
+                case 'e':
                     movement.rotateRight();
                     break;
             }
